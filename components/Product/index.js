@@ -5,10 +5,10 @@ import {
     StyleSheet 
 } from 'react-native';
 
-export const Product = () => {
+export const Product = ({ item }) => {
     return (
         <View style={styles.listProducts}>
-            <Text style={styles.productName}>Laranja</Text>
+            <Text style={styles.productName}>{item}</Text>
             <TouchableOpacity style={styles.listButton}>
                 <Text style={styles.listTextButton}>-</Text>
             </TouchableOpacity>

@@ -4,11 +4,26 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  ScrollView
+  FlatList
 } from 'react-native';
 import { Product } from './components/Product';
 
 export default function App() {
+  const products = [
+    'Televisão',
+    'Sofá',
+    'Guarda Roupas',
+    'Alexa',
+    'Notebook',
+    'Mouse',
+    'Teclado',
+    'Monitor',
+    'Switch',
+    'PS5',
+    'XBOX',
+    'NVIDIA RTX 4090Ti'
+  ]
+  
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Lista de Compras</Text>
@@ -24,9 +39,21 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView>
-        <Product /> 
-      </ScrollView>
+      <FlatList 
+        data={products}
+        keyExtractor={item => item}
+        renderItem={({ item }) => (
+          <Product 
+            item={item}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <Text style={styles.listEmptyText}>
+            Não existem produtos na sua lista de compras!
+          </Text>
+        )}
+      />
     </View>
   )
 }
@@ -59,6 +86,7 @@ const styles = StyleSheet.create({
   form: {
     flexDirection: 'row',
     marginTop: 24,
+    marginBottom: 5
   },
   button: {
     height: 56,
@@ -72,5 +100,10 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 24,
     fontWeight: 'bold'
+  },
+  listEmptyText: {
+    color: '#6b6b6b',
+    fontSize: 18,
+    textAlign: 'center'
   }
 })
