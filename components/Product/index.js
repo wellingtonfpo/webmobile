@@ -5,11 +5,14 @@ import {
     StyleSheet 
 } from 'react-native';
 
-export const Product = ({ item }) => {
+export const Product = ({ item, onRemove }) => {
     return (
         <View style={styles.listProducts}>
             <Text style={styles.productName}>{item}</Text>
-            <TouchableOpacity style={styles.listButton}>
+            <TouchableOpacity
+              style={styles.listButton}
+              onPress={onRemove}
+            >
                 <Text style={styles.listTextButton}>-</Text>
             </TouchableOpacity>
         </View>

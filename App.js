@@ -4,25 +4,34 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 import { Product } from './components/Product';
+import { useState } from 'react';
 
 export default function App() {
-  const products = [
-    'Televisão',
-    'Sofá',
-    'Guarda Roupas',
-    'Alexa',
-    'Notebook',
-    'Mouse',
-    'Teclado',
-    'Monitor',
-    'Switch',
-    'PS5',
-    'XBOX',
-    'NVIDIA RTX 4090Ti'
-  ]
+  const [products, setProduct] = useState([])
+  const [productName, setProductName] = useState('')
+
+  const handleProductAdd = () => {
+    if (products.includes(productName)) {
+      Alert.alert('Aviso', 'Já existe um produto com este nome')
+      return
+    }
+    setProduct((prevState) => [...prevState, productName])
+    setProductName('')
+  }
+
+  const handleProductRemove = (nome) => {
+    Alert.alert('Aviso', `Remover o produto ${nome}?`, [
+      {
+        text: 'Sim',
+        onPress: () => setProduct((prevState) => prevState.filter((nomeProduct) => nomeProduct !== nome))
+      },
+      { text: 'Não', style: 'cancel' }
+    ])
+  } 
   
   return (
     <View style={styles.container}>
@@ -33,8 +42,13 @@ export default function App() {
         <TextInput
           style={styles.input} 
           placeholder='Nome do produto'
+          onChangeText={setProductName}
+          value={productName}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleProductAdd}
+        >
           <Text style={styles.textButton}>+</Text>
         </TouchableOpacity>
       </View>
@@ -45,6 +59,7 @@ export default function App() {
         renderItem={({ item }) => (
           <Product 
             item={item}
+            onRemove={() => handleProductRemove(item)}
           />
         )}
         showsVerticalScrollIndicator={false}
